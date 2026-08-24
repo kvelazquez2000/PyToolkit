@@ -1,3 +1,6 @@
 Refactor README.md to simplify project description
+<<<<<<< HEAD
 Initial PyToolkit setup
 Reflections
+=======
+>>>>>>> main
