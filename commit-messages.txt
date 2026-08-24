@@ -1,0 +1,2 @@
+Refactor README.md to simplify project description
+Initial PyToolkit setup

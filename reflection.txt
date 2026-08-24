@@ -1,0 +1,6 @@
+ Q1: What is a commit?
+  Commit is when  you save the changes and gets upload to github
+  Q2: What is the difference between push and pull?
+    A push takes all commits form the clone to the github. A pull takes commits from github and saves to your vscode
+  Q3: Why use a branch instead of editing main directly? 
+  We create new code and new feature , we create a separate branch
