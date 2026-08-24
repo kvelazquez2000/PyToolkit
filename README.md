@@ -1,1 +1,1 @@
-PyToolkit is awesome
+PyToolkit is awesome and fun to use!
