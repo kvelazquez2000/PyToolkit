@@ -1,0 +1,22 @@
+ Q1: What is a commit?
+  Commit is when  you save the changes and gets upload to github
+  Q2: What is the difference between push and pull?
+    A push takes all commits form the clone to the github. A pull takes commits from github and saves to your vscode
+  Q3: Why use a branch instead of editing main directly? 
+  We create new code and new feature , we create a separate branch
+
+Q1: Why use a virtual environment instead of system Python?
+Always use a virtual environment for python as many of the the system libraries can be corrupt if system python goes bad.
+Q2: What does the Python extension add to VS Code?
+The python extension add python coding language to vscode. It also supports autocomplete and IntelliSense
+along with detecting virtual environments in the workplace folder too.
+Q3: What command shows your Python version?
+Use py -3 --version for windows to check your python version.
+
+Q1: What does argparse add compared to sys.argv?
+The argparse adds positional and optional arguments that can help define those required inputs
+and optional parameters. It also supports -v and --verbose as well as te --help generating a flag automatically.
+Q2: When would you use a subcommand?
+You would use it to create sub-commands like git, git push.
+Q3: What does action='store_true' do?
+This action is a python boolean to store the value true is there is an option to it.
