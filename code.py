@@ -15,8 +15,19 @@ def analyze_file(path, verbose=False):
 		text = f.read()
 	words = text.split()
 	print(f"Words: {len(words)}")
+	counter, by_prefix = word_stats(words)
 	if verbose:
 		print(f"Characters: {len(text)}")
+		print(f"Top words: {counter.most_common(10)}")
+		print(f"Words by prefix: {dict(by_prefix)}")
+
+from collections import Counter, defaultdict
+def word_stats(words):
+    counter = Counter(w.lower().strip(".,!?") for w in words if w)
+    by_prefix = defaultdict(list)
+    for w in counter:
+        by_prefix[w[:1]].append(w)
+    return counter, by_prefix
 
 def main():
 	args = build_parser().parse_args()
