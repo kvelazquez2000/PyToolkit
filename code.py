@@ -2,6 +2,7 @@
 # MARK: - pytoolkit.py
 #!/usr/bin/env python3
 import argparse
+from collections import Counter, defaultdict
 def build_parser():
 	parser = argparse.ArgumentParser(description="PyToolkit text utilities")
 	sub = parser.add_subparsers(dest="command",required=True)
@@ -21,7 +22,6 @@ def analyze_file(path, verbose=False):
 		print(f"Top words: {counter.most_common(10)}")
 		print(f"Words by prefix: {dict(by_prefix)}")
 
-from collections import Counter, defaultdict
 def word_stats(words):
     counter = Counter(w.lower().strip(".,!?") for w in words if w)
     by_prefix = defaultdict(list)

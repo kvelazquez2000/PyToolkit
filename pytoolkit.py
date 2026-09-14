@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 import argparse
+from collections import Counter
+
+
 def build_parser():
     parser = argparse.ArgumentParser(description="PyToolkit text utilities")
     sub = parser.add_subparsers(dest="command",required=True)
@@ -12,9 +15,11 @@ def analyze_file(path, verbose=False):
     with open(path, encoding="utf-8") as f:
         text = f.read()
     words = text.split()
+    counter = Counter(word.lower().strip(".,!?;:") for word in words if word)
     print(f"Words: {len(words)}")
     if verbose:
         print(f"Characters: {len(text)}")
+        print(f"Top words: {counter.most_common(10)}")
 
 def main():
     args = build_parser().parse_args()
