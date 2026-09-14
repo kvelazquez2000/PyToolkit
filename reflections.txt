@@ -20,3 +20,11 @@ Q2: When would you use a subcommand?
 You would use it to create sub-commands like git, git push.
 Q3: What does action='store_true' do?
 This action is a python boolean to store the value true is there is an option to it.
+
+What does Counter count automatically?
+The counter counts how many number of times a hashable object appears.
+How is defaultdict different from dict?
+A defaultdict helps generates default values with having a KeyError and stopping your code.
+Why normalize words to lowercase?
+We normalize words to lowercase letters as it helps standardizes words that are similar,
+like Python, and python the same regardless if it is capital or lower case letters rather than separate words.
