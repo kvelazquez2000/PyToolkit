@@ -1,0 +1,7 @@
+Q1:Why use with open instead of open alone?
+Add with to open it can help close your file with have to tell it.
+Q2:What does redirect_stdout do?
+This tool which the Context manger that temporality redirects to file or file like objects
+which adds flexibility to the functions or class that are hardwired to stdout.
+Q3:When is a context manager useful?
+Now the context manger can be useful module priding utilities for task that use with statements.

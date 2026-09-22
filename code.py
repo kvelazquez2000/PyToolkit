@@ -1,8 +1,12 @@
 
 # MARK: - pytoolkit.py
 #!/usr/bin/env python3
+
 import argparse
 from collections import Counter, defaultdict
+from contextlib import redirect_stdout
+import io
+
 def build_parser():
 	parser = argparse.ArgumentParser(description="PyToolkit text utilities")
 	sub = parser.add_subparsers(dest="command",required=True)
@@ -29,9 +33,24 @@ def word_stats(words):
         by_prefix[w[0]].append(w)
     return counter, by_prefix
 
+def safe_read(path):
+ try:
+  with open(path, encoding="utf-8") as f:
+     return f.read()
+ except FileNotFoundError:
+       print(f"Error: File '{path}' not found.")
+       return ""
+
+def capture_report(path):
+  buffer = io.StringIO()
+  with redirect_stdout(buffer):
+     print(f"Analyzing {path}")
+  return buffer.getvalue()
+
 def main():
 	args = build_parser().parse_args()
 	if args.command == "analyze":
+		print(capture_report(args.file), end="")
 		analyze_file(args.file, args.verbose)
 
 if __name__ == "__main__":
