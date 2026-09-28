@@ -1,7 +1,6 @@
-Q1:Why use with open instead of open alone?
-Add with to open it can help close your file with have to tell it.
-Q2:What does redirect_stdout do?
-This tool which the Context manger that temporality redirects to file or file like objects
-which adds flexibility to the functions or class that are hardwired to stdout.
-Q3:When is a context manager useful?
-Now the context manger can be useful module priding utilities for task that use with statements.
+Q1: What does lru_cache save?
+The lru_cache saves the result of the function so you do not have to keep executing the same function again.
+Q2: What problem does wraps solve?
+The problem that wraps solve as it helps update the wrapper function tp look like the wrapper function's attributes 
+Q3: When is partial better than a lambda?
+Partial is better than lambda when you want to fix arguments in existing function.
