@@ -1,6 +1,0 @@
-Q1: What does lru_cache save?
-The lru_cache saves the result of the function so you do not have to keep executing the same function again.
-Q2: What problem does wraps solve?
-The problem that wraps solve as it helps update the wrapper function tp look like the wrapper function's attributes 
-Q3: When is partial better than a lambda?
-Partial is better than lambda when you want to fix arguments in existing function.

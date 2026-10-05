@@ -1,5 +1,7 @@
 
-# MARK: - pytoolkit.py
+# MARK: - PyToolkit_content.py
+# MARK: - __init__.py
+
 #!/usr/bin/env python3
 
 import argparse
@@ -21,7 +23,7 @@ def log_call(fn):
     return wrapper
 
 
-
+# MARK: - cli.py
 def build_parser():
     parser = argparse.ArgumentParser(description="PyToolkit text utilities")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -44,6 +46,7 @@ def analyze_file(path, verbose=False):
 
 analyze_short = partial(analyze_file, verbose=False)
 
+# MARK: - stats.py
 def word_stats(words):
     counter = Counter(w.lower().strip(".,!?") for w in words if w)
     by_prefix = defaultdict(list)
