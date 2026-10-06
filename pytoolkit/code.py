@@ -9,11 +9,8 @@ import io
 from collections import Counter, defaultdict
 from contextlib import redirect_stdout
 import sys
-from functools import lru_cache, partial, wraps
+from functools import lru_cache, partial, update_wrapper, wraps
 
-@lru_cache(maxsize=32)
-def cached_world_count(text):
-    return len(text.split())
 
 def log_call(fn):
     @wraps(fn)
@@ -22,6 +19,9 @@ def log_call(fn):
         return fn(*args, **kwargs)
     return wrapper
 
+@lru_cache(maxsize=32)
+def cached_world_count(text):
+    return len(text.split())
 
 # MARK: - cli.py
 def build_parser():
@@ -76,6 +76,15 @@ def main():
         text = safe_read(args.file)
         if text is None:
             sys.exit(1)
+
+        analyze = log_call(analyze_short )
+        update_wrapper(analyze, analyze_short )
+        result1 = cached_world_count(text)
+        result2 = cached_world_count(text)
+
+        print(result1)
+        print(result2)
+        print(cached_world_count.cache_info())
         print(capture_report(args.file), end="")
         analyze_file(args.file, args.verbose)
 
