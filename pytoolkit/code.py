@@ -10,7 +10,7 @@ from collections import Counter, defaultdict
 from contextlib import redirect_stdout
 import sys
 from functools import lru_cache, partial, update_wrapper, wraps
-
+import importlib
 
 def log_call(fn):
     @wraps(fn)
@@ -32,10 +32,13 @@ def build_parser():
     analyze.add_argument("-v", "--verbose", action="store_true")
     return parser
 
+def load_plugin(uppercase):
+    module = importlib.import_module(f"pytoolkit.plugins.{uppercase}")
+    return module.apply
 
 def analyze_file(path, verbose=False):
     with open(path, encoding="utf-8") as f:
-        text = f.read()
+        text = load_plugin("uppercase")(f.read())
     words = text.split()
     print(f"Words: {len(words)}")
     counter, by_prefix = word_stats(words)
@@ -48,7 +51,7 @@ analyze_short = partial(analyze_file, verbose=False)
 
 # MARK: - stats.py
 def word_stats(words):
-    counter = Counter(w.lower().strip(".,!?") for w in words if w)
+    counter = Counter(w.strip(".,!?") for w in words if w)
     by_prefix = defaultdict(list)
     for w in counter:
         by_prefix[w[0]].append(w)
@@ -74,6 +77,7 @@ def main():
     args = build_parser().parse_args()
     if args.command == "analyze":
         text = safe_read(args.file)
+    
         if text is None:
             sys.exit(1)
 

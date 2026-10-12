@@ -43,3 +43,10 @@ Q2: What problem does wraps solve?
 The problem that wraps solve as it helps update the wrapper function tp look like the wrapper function's attributes 
 Q3: When is partial better than a lambda?
 Partial is better than lambda when you want to fix arguments in existing function.
+
+Q1: What does __init__.py do? 
+This file is used when a package is created. It tells python that this folder is a package and can use its modules.
+Q2: Why use python -m?
+We use -m to directly cal out the module by its name.
+Q3: What is a relative import?
+Relative import can import a module from the same package or a parent package with just using dots instead of typing down the whole package path.
