@@ -32,6 +32,10 @@ def build_parser():
     analyze.add_argument("-v", "--verbose", action="store_true")
     return parser
 
+# MARK: - uppercase.py
+def apply(text):
+    return text.upper()
+
 def load_plugin(uppercase):
     module = importlib.import_module(f"pytoolkit.plugins.{uppercase}")
     return module.apply
