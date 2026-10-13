@@ -28,5 +28,5 @@ INSERT INTO `Job`(`JOB_CODE`, `JOB_DESCRIPTION`, `JOB_CHG_HOUR`, `JOB_LAST_UPDAT
 (508, 'Applications Designer', 48.1, '2012-03-24 00:00:00'),(509, 'Bio Technician', 34.55, '2011-11-20 00:00:00'),(510, 'General Support', 18.36, '2011-11-20 00:00:00');
 
 INSERT INTO `Project`(`PROJ_NUM`, `PROJ_NAME`, `PROJ_VALUE`, `PROJ_BALANCE`, `PROJ_EMP_NUM`) VALUES 
-(15, 'Evergreen', 1453500, 1002350, 103),(18, 'Amber Wave', 3500500, 2110350, 108),
-(22, 'Rolling Tide', 805000, 500345, 102),(25, 'Starflight', 2650500, 2309880, 107);
+(15, 'Evergreen', 1453500, 1002350, 103),(18, 'Amber Wave', 3500500, 2110346, 108),
+(22, 'Rolling Tide', 805000, 500345.2, 102),(25, 'Starflight', 2650500, 2309880, 107);
