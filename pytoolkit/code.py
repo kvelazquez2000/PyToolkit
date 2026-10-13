@@ -77,6 +77,15 @@ def capture_report(path):
         print(f"Analyzing {path}")
     return buffer.getvalue()
 
+def read_lines(path):
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            yield line.rstrip("\n")
+
+def count_lines(path):
+    return sum(1 for _ in read_lines (path))
+
+
 def main():
     args = build_parser().parse_args()
     if args.command == "analyze":
