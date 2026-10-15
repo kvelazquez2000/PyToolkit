@@ -40,26 +40,36 @@ def load_plugin(uppercase):
     module = importlib.import_module(f"pytoolkit.plugins.{uppercase}")
     return module.apply
 
+def read_lines(path):
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            yield line.rstrip("\n")
+
+def count_lines(path):
+    return sum(1 for _ in read_lines (path))
+
 def analyze_file(path, verbose=False):
     with open(path, encoding="utf-8") as f:
         text = load_plugin("uppercase")(f.read())
     words = text.split()
+    line_count = count_lines(path)
     print(f"Words: {len(words)}")
-    counter, by_prefix = word_stats(words)
+    word_counter, by_prefix = word_stats(words)
     if verbose:
+        print(f"Line count: {line_count}")
         print(f"Characters: {len(text)}")
-        print(f"Top words: {counter.most_common(10)}")
+        print(f"Top words: {word_counter.most_common(10)}")
         print(f"Words by prefix: {dict(by_prefix)}")
 
 analyze_short = partial(analyze_file, verbose=False)
 
 # MARK: - stats.py
 def word_stats(words):
-    counter = Counter(w.strip(".,!?") for w in words if w)
+    word_counter = Counter(w.strip(".,!?") for w in words if w)
     by_prefix = defaultdict(list)
-    for w in counter:
+    for w in word_counter:
         by_prefix[w[0]].append(w)
-    return counter, by_prefix
+    return word_counter, by_prefix
 
 
 def safe_read(path):
@@ -77,13 +87,6 @@ def capture_report(path):
         print(f"Analyzing {path}")
     return buffer.getvalue()
 
-def read_lines(path):
-    with open(path, encoding="utf-8") as f:
-        for line in f:
-            yield line.rstrip("\n")
-
-def count_lines(path):
-    return sum(1 for _ in read_lines (path))
 
 
 def main():
