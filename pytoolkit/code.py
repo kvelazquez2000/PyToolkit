@@ -11,7 +11,7 @@ from contextlib import redirect_stdout
 import sys
 from functools import lru_cache, partial, update_wrapper, wraps
 import importlib
-
+from itertools import groupby, combinations
 def log_call(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -48,6 +48,13 @@ def read_lines(path):
 def count_lines(path):
     return sum(1 for _ in read_lines (path))
 
+def prefix_groups_groups(words):
+    for prefix, group in groupby(sorted(words), key=lambda w: w[0]):
+        yield prefix, list(group)
+
+def word_pairs(words, n=2):
+    return list(combinations(words[:6], n))
+
 def analyze_file(path, verbose=False):
     with open(path, encoding="utf-8") as f:
         text = load_plugin("uppercase")(f.read())
@@ -55,12 +62,15 @@ def analyze_file(path, verbose=False):
     line_count = count_lines(path)
     print(f"Words: {len(words)}")
     word_counter, by_prefix = word_stats(words)
+    Group_by_prefix = prefix_groups_groups(word_counter)
+    pair_words = word_pairs(words)
     if verbose:
         print(f"Line count: {line_count}")
         print(f"Characters: {len(text)}")
         print(f"Top words: {word_counter.most_common(10)}")
         print(f"Words by prefix: {dict(by_prefix)}")
-
+        print(f"Group by prefix: {Group_by_prefix}")
+        print(f"Pair word: {pair_words}")
 analyze_short = partial(analyze_file, verbose=False)
 
 # MARK: - stats.py
