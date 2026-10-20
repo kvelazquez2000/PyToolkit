@@ -62,8 +62,8 @@ def analyze_file(path, verbose=False):
     line_count = count_lines(path)
     print(f"Words: {len(words)}")
     word_counter, by_prefix = word_stats(words)
-    Group_by_prefix = prefix_groups_groups(word_counter)
-    pair_words = word_pairs(words)
+    Group_by_prefix = list(prefix_groups_groups(word_counter))
+    pair_words = list(word_pairs(words))
     if verbose:
         print(f"Line count: {line_count}")
         print(f"Characters: {len(text)}")
