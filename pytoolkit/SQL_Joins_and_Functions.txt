@@ -76,3 +76,9 @@ SELECT `Project`.`PROJ_NAME` FROM `Project`
 SELECT 'Employee' AS `TABLE_NAME`,`Employee`.`EMP_LNAME` AS `NAME` FROM `Employee`
 UNION
 SELECT 'Project' AS `TABLE_NAME`,`Project`.`PROJ_NAME` FROM `Project`
+
+SELECT `Employee`.`EMP_LNAME`, `Project`.`PROJ_NAME`, SUM(`Assignment`.`ASSIGN_HOURS`) AS `total_hours`, SUM(`Assignment`.`ASSIGN_CHARGE`) AS `total_charge`
+FROM `Assignment`
+INNER JOIN `Project` ON `Assignment`.`ASSIGN_PROJ_NUM` = `Project`.`PROJ_NUM`
+INNER JOIN  `Employee` ON `Assignment`.`ASSIGN_EMP_NUM` = `Employee`.`EMP_NUM`
+GROUP BY `Employee`.`EMP_NUM`
