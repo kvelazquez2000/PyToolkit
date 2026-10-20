@@ -1,0 +1,78 @@
+SELECT `EMP_NUM`, `EMP_FNAME`, `EMP_LNAME`, `EMP_JOB_CODE` FROM `Employee` WHERE 1
+
+SELECT `PROJ_NUM`, `PROJ_NAME`, `PROJ_VALUE`, `PROJ_BALANCE` FROM `Project` WHERE 1
+
+SELECT `Employee`.`EMP_FNAME`, `Employee`.`EMP_LNAME`, `Job`.`JOB_DESCRIPTION`, `Job`.`JOB_CHG_HOUR`
+FROM `Employee`
+INNER JOIN `Job` on `Employee`.`EMP_JOB_CODE` = `Job`.`JOB_CODE`
+
+SELECT `Project`.`PROJ_NAME`, `Employee`.`EMP_FNAME`, `Employee`.`EMP_LNAME`
+FROM `Project`
+INNER JOIN `Employee` ON `Project`.`PROJ_EMP_NUM` = `Employee`.`EMP_NUM`
+
+SELECT `Assignment`.`ASSIGN_NUM`, `Employee`.`EMP_FNAME`, `Employee`.`EMP_LNAME`, `Project`.`PROJ_NAME`, `Assignment`.`ASSIGN_HOURS`
+FROM `Assignment` 
+INNER JOIN `Employee` on `Assignment`.`ASSIGN_EMP_NUM` = `Employee`.`EMP_NUM`
+INNER JOIN `Project` on `Assignment`.`ASSIGN_PROJ_NUM` = `Project`.`PROJ_NUM` 
+
+SELECT `Employee`.`EMP_NUM`,COUNT(* ) 
+FROM `Employee` 
+
+SELECT `Assignment`.`ASSIGN_NUM`, COUNT(* )
+FROM `Assignment` 
+
+SELECT `Project`.`PROJ_NAME`, COUNT(* )
+FROM `Project` 
+INNER JOIN `Employee` on `Project`.`PROJ_EMP_NUM` = `Employee`.`EMP_NUM`
+INNER JOIN `Assignment`on`Project`.`PROJ_NUM` = `Assignment`.`ASSIGN_PROJ_NUM`
+GROUP BY `Project`.`PROJ_EMP_NUM`
+
+SELECT `Project`.`PROJ_NAME`, SUM(`Assignment`.`ASSIGN_HOURS`)
+FROM `Project`
+INNER JOIN `Assignment` on `Project`.`PROJ_NUM` = `Assignment`.`ASSIGN_PROJ_NUM`
+GROUP BY `Project`.`PROJ_NUM`
+
+SELECT `Project`.`PROJ_NAME`, SUM(`Assignment`.`ASSIGN_CHARGE`)
+FROM `Project`
+INNER JOIN `Assignment` on `Project`.`PROJ_NUM` = `Assignment`.`ASSIGN_PROJ_NUM`
+GROUP BY `Project`.`PROJ_NUM`
+
+SELECT AVG(`Assignment`.`ASSIGN_CHARGE`)
+FROM `Assignment` 
+
+SELECT AVG(`Assignment`.`ASSIGN_HOURS`)
+FROM `Assignment` 
+
+SELECT `Job`.`JOB_DESCRIPTION` , `JOB_CHG_HOUR`
+FROM `Job`
+WHERE `Job`.`JOB_CHG_HOUR` = (SELECT MAX(`JOB_CHG_HOUR`) FROM `Job`)
+
+SELECT `Job`.`JOB_DESCRIPTION` , `JOB_CHG_HOUR`
+FROM `Job`
+WHERE `Job`.`JOB_CHG_HOUR` = (SELECT MIN(`JOB_CHG_HOUR`) FROM `Job`)
+
+SELECT `Employee`.`EMP_FNAME`, `Employee`.`EMP_LNAME`, SUM(`Assignment`.`ASSIGN_HOURS`)
+FROM `Employee` 
+INNER JOIN `Assignment`ON `Employee`.`EMP_NUM` = `Assignment`.`ASSIGN_EMP_NUM`
+GROUP BY `Employee`.`EMP_NUM`
+ 
+SELECT `Employee`.`EMP_FNAME`, `Employee`.`EMP_LNAME`, SUM(`Assignment`.`ASSIGN_CHARGE`)
+FROM `Employee` 
+INNER JOIN `Assignment`ON `Employee`.`EMP_NUM` = `Assignment`.`ASSIGN_EMP_NUM`
+GROUP BY `Employee`.`EMP_NUM`
+
+SELECT `Employee`.`EMP_FNAME`, `Employee`.`EMP_LNAME`, `Assignment`.`ASSIGN_NUM` 
+FROM `Assignment` 
+LEFT OUTER JOIN `Employee` on `Assignment`.`ASSIGN_EMP_NUM` = `Employee`.`EMP_NUM`
+
+SELECT  `Employee`.`EMP_FNAME`, `Employee`.`EMP_LNAME`, `Assignment`.`ASSIGN_NUM`
+FROM `Employee` 
+LEFT OUTER JOIN `Assignment` ON `Employee`.`EMP_NUM` = `Assignment`.`ASSIGN_NUM`
+
+SELECT `Employee`.`EMP_LNAME` AS `NAME` FROM `Employee`
+UNION
+SELECT `Project`.`PROJ_NAME` FROM `Project`
+
+SELECT 'Employee' AS `TABLE_NAME`,`Employee`.`EMP_LNAME` AS `NAME` FROM `Employee`
+UNION
+SELECT 'Project' AS `TABLE_NAME`,`Project`.`PROJ_NAME` FROM `Project`
