@@ -1,6 +1,8 @@
-Q1: What does yield do?
-Yield creates a generator functions that returns one value at a time.  
-Q2: Why stream instead of read()?
-With stream you can save up memory without having to return the whole file especially in bigger files.
-Q3: What is lazy evaluation?
-Lazy evaluation delays values until it is needed which can help a program's performance.
+Q1: Why sort before groupby?
+The sort() fuction helps sort the prefix of the words by ascending order including alphabetically.
+Q2: What does combinations return? 
+Combinations returns a unique order based on pairs set by n=2 and taking the first 6 
+words of the file which python counts 0,1,2,3,4,5 and cuts it by the 6th imput base on [:6].
+('WE',HAVE') but no ('HAVE','WE) as it stops redudency by moving to the next imput in this case 1=
+'HAVE' and never counting baack to 0='WE'.
+Q3: When is itertools faster than loops?

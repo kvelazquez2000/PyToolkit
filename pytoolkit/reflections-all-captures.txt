@@ -58,3 +58,10 @@ The import_module returns code inside the module from the packages pytoolkit and
 Q3: How do plugins keep core code small?
 plugins keep the core code small as it codes are separated in another module in the subpackage plugins.
 It makes your made your main code a modular design with added extra features from plugs through loading them up in the main code
+
+Q1: What does yield do?
+Yield creates a generator functions that returns one value at a time.  
+Q2: Why stream instead of read()?
+With stream you can save up memory without having to return the whole file especially in bigger files.
+Q3: What is lazy evaluation?
+Lazy evaluation delays values until it is needed which can help a program's performance.
