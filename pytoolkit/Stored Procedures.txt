@@ -1,0 +1,4 @@
+DELIMITER//
+
+CREATE PROCEDURE sp_update_project_balance(OUT p_discount_threshold FLOAT)
+ DECLARE cur_assign C
