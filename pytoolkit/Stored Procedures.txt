@@ -1,4 +1,46 @@
-DELIMITER//
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_update_Project_balance //
+CREATE PROCEDURE sp_update_project_balance(
+p_proj_num INT, P_discount_threshold FLOAT, p_discount_rate FLOAT
+)
+BEGIN
 
-CREATE PROCEDURE sp_update_project_balance(OUT p_discount_threshold FLOAT)
- DECLARE cur_assign C
+  DECLARE v_total_cost FLOAT DEFAULT 0;
+  DECLARE v_done INT DEFAULT 0;
+  DECLARE v_charge FLOAT; 
+
+  DECLARE cur_assign CURSOR FOR 
+  	SELECT ASSIGN_CHARGE
+  	FROM Assignment
+  	WHERE ASSIGN_PROJ_NUM = p_proj_num; 
+  
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_done=1;
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN 
+  ROLLBACK;
+  END;
+  
+  OPEN cur_assign;
+  read_loop:WHILE v_done=0 DO
+  	FETCH cur_assign INTO v_charge;
+  	IF v_done=0 THEN
+  		SET v_total_cost=v_total_cost+v_charge;
+  	END IF;
+  END WHILE;
+  CLOSE cur_assign;
+  IF v_total_cost>p_discount_threshold THEN
+  	SET v_total_cost=v_total_cost*(1-p_discount_rate);
+  END IF;
+  
+  UPDATE Project
+  SET PROJ_BALANCE = PROJ_BALANCE-v_total_cost
+  WHERE PROJ_NUM=p_proj_num;
+  
+
+
+  COMMIT;
+END //
+ 
+DELIMITER ;
+ 
+CALL sp_update_project_balance(18, 1000, 0.10);
