@@ -3,7 +3,7 @@
 # MARK: - __init__.py
 
 #!/usr/bin/env python3
-
+import re
 import argparse
 import io
 from collections import Counter, defaultdict
@@ -55,6 +55,18 @@ def prefix_groups_groups(words):
 def word_pairs(words, n=2):
     return list(combinations(words[:6], n))
 
+raw_logs = [
+"2024-01-15 10:30:00 [ERROR] Disk full"
+]
+LOG_PATTERN = re.compile(
+    r"(?P<is>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>\w+)\] (?P<msg>.*)"
+)
+
+def parse_log_line(line):
+    m = LOG_PATTERN.match(line)
+    return m.groupdict() if m else None
+
+
 def analyze_file(path, verbose=False):
     with open(path, encoding="utf-8") as f:
         text = load_plugin("uppercase")(f.read())
@@ -64,6 +76,9 @@ def analyze_file(path, verbose=False):
     word_counter, by_prefix = word_stats(words)
     Group_by_prefix = list(prefix_groups_groups(word_counter))
     pair_words = list(word_pairs(words))
+    parsed_logs = [parse_log_line(log) for log in raw_logs if parse_log_line(log) is not None]
+    for log in parsed_logs:
+        print(log)
     if verbose:
         print(f"Line count: {line_count}")
         print(f"Characters: {len(text)}")
@@ -71,6 +86,7 @@ def analyze_file(path, verbose=False):
         print(f"Words by prefix: {dict(by_prefix)}")
         print(f"Group by prefix: {Group_by_prefix}")
         print(f"Pair word: {pair_words}")
+        print(f"Parsed logs: {log}")
 analyze_short = partial(analyze_file, verbose=False)
 
 # MARK: - stats.py
