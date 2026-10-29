@@ -59,7 +59,9 @@ raw_logs = [
 "2024-01-15 10:30:00 [ERROR] Disk full"
 ]
 LOG_PATTERN = re.compile(
-    r"(?P<is>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>\w+)\] (?P<msg>.*)"
+    r"(?P<ts>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>\w+)\] (?P<msg>.*)"
+    
+     
 )
 
 def parse_log_line(line):
