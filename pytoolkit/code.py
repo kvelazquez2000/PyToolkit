@@ -83,6 +83,7 @@ def analyze_file(path, verbose=False):
     Group_by_prefix = list(prefix_groups_groups(word_counter))
     pair_words = list(word_pairs(words))
     parsed_logs = [parse_log_line(log) for log in raw_logs if parse_log_line(log) is not None]
+    Counting_log_errors = log_count(raw_logs)
     for log in parsed_logs:
         print(log)
     if verbose:
@@ -93,6 +94,7 @@ def analyze_file(path, verbose=False):
         print(f"Group by prefix: {Group_by_prefix}")
         print(f"Pair word: {pair_words}")
         print(f"Parsed logs: {log}")
+        print(f"Counting log errors: {Counting_log_errors}")
 analyze_short = partial(analyze_file, verbose=False)
 
 # MARK: - stats.py
