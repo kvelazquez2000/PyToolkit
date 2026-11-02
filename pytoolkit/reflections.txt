@@ -1,9 +1,6 @@
-Q1: Why sort before groupby?
-The sort() function helps sort the prefix of the words by ascending order including alphabetically.
-Q2: What does combinations return? 
-Combinations returns a unique order based on pairs set by n=2 and taking the first 6 
-words of the file which python counts 0,1,2,3,4,5 and cuts it by the 6th imput base on [:6].
-('WE',HAVE') but no ('HAVE','WE) as it stops redundancy by moving to the next input in this case 1=
-'HAVE' and never counting baSSSSck to 0='WE'.
-Q3: When is itertools faster than loops?
-An itertools can be used faster when creating complex iterators as well as saving a lot of memory along with it.
+Q1: What is a capture group?
+A capture group returns the strings the RE matches up with from the text.
+Q2: Why compile the pattern? Compiling a pattern help convert the pattern into a regex object 
+which makes it less time consuming have to re compiling the pater when using it again.
+Q:3 What does \d match?
+/d matches all valid digits from 0 to 9.
