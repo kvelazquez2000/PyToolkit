@@ -61,11 +61,17 @@ raw_logs = [
 LOG_PATTERN = re.compile(
     r"(?P<is>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>\w+)\] (?P<msg>.*)"
 )
-
 def parse_log_line(line):
     m = LOG_PATTERN.match(line)
     return m.groupdict() if m else None
 
+def log_count(raw_logs, output_file):
+    parsed_logs = [parse_log_line(line) for line in raw_logs]
+    with open(output_file, 'w') as out:
+        for level in ['ERROR', 'WARNING']:
+            count = sum(1 for log in parsed_logs if log is not None and log['level'] == level)
+            out.write(f"{level}: {count}\n")
+            
 
 def analyze_file(path, verbose=False):
     with open(path, encoding="utf-8") as f:
