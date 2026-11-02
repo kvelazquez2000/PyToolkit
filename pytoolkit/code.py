@@ -69,10 +69,13 @@ def parse_log_line(line):
 
 def log_count(raw_logs, output_file):
     parsed_logs = [parse_log_line(line) for line in raw_logs]
+    counts = {}
     with open(output_file, 'w') as out:
         for level in ['ERROR', 'WARNING']:
             count = sum(1 for log in parsed_logs if log is not None and log['level'] == level)
+            counts[level] = count
             out.write(f"{level}: {count}\n")
+        return counts
             
 
 def analyze_file(path, verbose=False):
@@ -85,7 +88,8 @@ def analyze_file(path, verbose=False):
     Group_by_prefix = list(prefix_groups_groups(word_counter))
     pair_words = list(word_pairs(words))
     parsed_logs = [parse_log_line(log) for log in raw_logs if parse_log_line(log) is not None]
-    Counting_log_errors = log_count(raw_logs)
+    output_file = "log_counts.txt"
+    Counting_log_errors = log_count(raw_logs, output_file)
     for log in parsed_logs:
         print(log)
     if verbose:
@@ -95,7 +99,7 @@ def analyze_file(path, verbose=False):
         print(f"Words by prefix: {dict(by_prefix)}")
         print(f"Group by prefix: {Group_by_prefix}")
         print(f"Pair word: {pair_words}")
-        print(f"Parsed logs: {log}")
+        print(f"Parsed logs: {parsed_logs if parsed_logs else None}")
         print(f"Counting log errors: {Counting_log_errors}")
 analyze_short = partial(analyze_file, verbose=False)
 
