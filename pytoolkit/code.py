@@ -12,6 +12,7 @@ import sys
 from functools import lru_cache, partial, update_wrapper, wraps
 import importlib
 from itertools import groupby, combinations
+from collections.abc import Iterator
 def log_call(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -31,6 +32,11 @@ def build_parser():
     analyze.add_argument("-f", "--file", required=True, help="Input file")
     analyze.add_argument("-v", "--verbose", action="store_true")
     return parser
+
+def read_lines(path: str) -> Iterator[str]:
+    """Yield stripped lines from a text file."""
+    ...
+
 
 # MARK: - uppercase.py
 def apply(text):
@@ -60,9 +66,9 @@ raw_logs = [
 ]
 LOG_PATTERN = re.compile(
     r"(?P<ts>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>\w+)\] (?P<msg>.*)"
-    
-     
+       
 )
+
 def parse_log_line(line):
     m = LOG_PATTERN.match(line)
     return m.groupdict() if m else None
@@ -76,7 +82,6 @@ def log_count(raw_logs, output_file):
             counts[level] = count
             out.write(f"{level}: {count}\n")
         return counts
-            
 
 def analyze_file(path, verbose=False):
     with open(path, encoding="utf-8") as f:
@@ -111,6 +116,8 @@ def word_stats(words):
         by_prefix[w[0]].append(w)
     return word_counter, by_prefix
 
+def word_stats(words: list[str]) -> tuple[Counter, dict]:
+    ...
 
 def safe_read(path):
     try:

@@ -14,10 +14,13 @@ def log_call(fn):
     return wrapper
 
 
-def word_stats(words):
+def word_stats(words: list[str]) -> tuple[Counter, dict]:
     counter = Counter(w.lower().strip(".,!?") for w in words if w)
     by_prefix = defaultdict(list)
     for w in counter:
         by_prefix[w[0]].append(w)
     return counter, by_prefix
- 
+
+
+def word_stats(words: list[str]) -> tuple[Counter, dict]:
+    ...
