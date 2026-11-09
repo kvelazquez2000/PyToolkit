@@ -1,6 +1,6 @@
-Q1: What is a capture group?
-A capture group returns the strings the RE matches up with from the text.
-Q2: Why compile the pattern? Compiling a pattern help convert the pattern into a regex object 
-which makes it less time consuming have to re compiling the pater when using it again.
-Q:3 What does \d match?
-/d matches all valid digits from 0 to 9.
+Q1: What do type hints help with?
+Type hints help programmers annotate their code that define the expect type for variables and function arguments.
+Q2: Does Python enforce types at runtime? 
+Python does not enforce types at the runtime. 
+Q3: What tool did you use to check types?
+You can use 3rd party tools like type checkers, IDEs, linters and etc.

@@ -33,11 +33,6 @@ def build_parser():
     analyze.add_argument("-v", "--verbose", action="store_true")
     return parser
 
-def read_lines(path: str) -> Iterator[str]:
-    """Yield stripped lines from a text file."""
-    ...
-
-
 # MARK: - uppercase.py
 def apply(text):
     return text.upper()
@@ -46,12 +41,12 @@ def load_plugin(uppercase):
     module = importlib.import_module(f"pytoolkit.plugins.{uppercase}")
     return module.apply
 
-def read_lines(path):
+def read_lines(path: str) -> Iterator[str]:
     with open(path, encoding="utf-8") as f:
         for line in f:
             yield line.rstrip("\n")
 
-def count_lines(path):
+def count_lines(path: str):
     return sum(1 for _ in read_lines (path))
 
 def prefix_groups_groups(words):
@@ -109,15 +104,12 @@ def analyze_file(path, verbose=False):
 analyze_short = partial(analyze_file, verbose=False)
 
 # MARK: - stats.py
-def word_stats(words):
+def word_stats(words: list[str]) -> tuple[Counter, dict]:
     word_counter = Counter(w.strip(".,!?") for w in words if w)
     by_prefix = defaultdict(list)
     for w in word_counter:
         by_prefix[w[0]].append(w)
     return word_counter, by_prefix
-
-def word_stats(words: list[str]) -> tuple[Counter, dict]:
-    ...
 
 def safe_read(path):
     try:

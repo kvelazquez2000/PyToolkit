@@ -1,6 +1,7 @@
 import sys
 from collections import Counter, defaultdict
 from functools import lru_cache, partial, wraps
+from collections.abc import Iterator
 
 @lru_cache(maxsize=32)
 def cached_world_count(text):
@@ -22,5 +23,3 @@ def word_stats(words: list[str]) -> tuple[Counter, dict]:
     return counter, by_prefix
 
 
-def word_stats(words: list[str]) -> tuple[Counter, dict]:
-    ...
