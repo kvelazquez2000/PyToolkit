@@ -1,5 +1,0 @@
-Controls 
-a to move left
-d to move right
-w to move up
-s to move down
