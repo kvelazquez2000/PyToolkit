@@ -32,7 +32,7 @@ def safe_read(path):
         return None
 
 def load_plugin(uppercase):
-        module = importlib.import_module(f"plugins.{uppercase}")
+        module = importlib.import_module(f"pygameproject.plugins.{uppercase}")
         return module.apply
 
 def run_game():
@@ -129,13 +129,14 @@ def run_game():
 
 def main():
     if len(sys.argv)>1:
-    args = build_parser().parse_args()
-    if args.command == "analyze":
-        text = safe_read(args.file)
-        if text is None:
-             sys.exit(1)
+        args = build_parser().parse_args()
+        if args.command == "analyze":
+            text = safe_read(args.file)
+            if text is None:
+                sys.exit(1)
 
-        analyze_file(args.file, args.verb)
-  
+            analyze_file(args.file, args.verbose)
+    else:
+        run_game()
 if __name__=="__main__":
      main()

@@ -1,0 +1,3 @@
+python -m pytoolkit.code analyze -f sample.txt -v  
+python -m pygameproject.game analyze -f gametext/controls.txt -v
+python -m pygameproject.game 
