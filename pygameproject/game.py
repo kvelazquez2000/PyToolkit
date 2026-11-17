@@ -1,8 +1,17 @@
 import pygame
+import sqlite3
+import datetime
 import importlib
 import os
 import argparse
 import sys
+import re
+import io
+from collections import Counter, defaultdict
+from contextlib import redirect_stdout
+from functools import lru_cache, partial, update_wrapper, wraps
+from itertools import groupby, combinations
+from collections.abc import Iterator
 
 os.path.dirname(os.path.abspath(__file__))
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -10,35 +19,45 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 def build_parser():
      parser = argparse.ArgumentParser("Pytoolkit text untilities")
      sub = parser.add_subparsers(dest="command", required=True)
+
      analyze = sub.add_parser("analyze", help="Analyze a text file")
      analyze.add_argument("-f", "--file", required=True, help="Input file") 
      analyze.add_argument("-v", "--verbose", action="store_true")
+     timer_parser = sub.add_parser('timer', help= "Game timer")
+     timer_parser.add_argumnet("-s" "--seconds", type=int, requried=True, help="Game timer countup")
+      
+
+
      return parser
 
 def analyze_file(path, verbose=False):
     with open(path, encoding="utf-8") as f:
         text = f.read()
     words = text.split()
-    print(f"Words: {len(words)}")
     if verbose:
          print(f"Characters: {len(words)}")
+
+def game_timer():
+    with open
+    timer = s
+
 
 def safe_read(path):
     try:
         with open(path, encoding="utf-8") as f:
-             return f.read
+            return f.read()
     except FileNotFoundError:
         print(f"Error: File '{path}' not found.")
         return None
 
 def load_plugin(uppercase):
-        module = importlib.import_module(f"pygameproject.plugins.{uppercase}")
+        module = importlib.import_module(f"plugins.{uppercase}")
         return module.apply
 
 def run_game():
     pygame.init()
     white = (255, 255, 255)
-    reen = (0, 255, 0)
+    green = (0, 255, 0)
     blue = (0, 0, 128)
     screen = pygame.display.set_mode((2100, 1200))
     clock = pygame.time.Clock()
@@ -47,7 +66,6 @@ def run_game():
     moving_right = False
     running = True
     player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() /2)
-
     font = pygame.font.Font('freesansbold.ttf', 12)
     controls_file = 'gametext/controls.txt'
     def get_game_text():
@@ -60,7 +78,10 @@ def run_game():
     render_text = font.render(game_text, True, white)
     text_rect = render_text.get_rect()
     text_rect.topleft = (10, 10)
-
+    player_timer = timer()
+    render_timer = font.render(player_timer, True, white)
+    timer_rect = render_timer.get_rect()
+    timer_rect.topleft = (20, 10)
     class Soldier(pygame.sprite.Sprite):
         def __init__(self, char_type, x, y, scale, speed):
             pygame.sprite.Sprite.__init__(self)
@@ -109,6 +130,7 @@ def run_game():
         player.draw()
         player.move(moving_left, moving_right)
         screen.blit(render_text, text_rect)
+        screen.blit(render_timer, timer_rect)
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
