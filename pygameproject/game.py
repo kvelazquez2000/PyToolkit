@@ -15,11 +15,11 @@ from itertools import groupby, combinations
 from collections.abc import Iterator
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PARENT_DIR = os.chdir(os.path.dirname(os.path.abspath(__file__)))
+PARENT_DIR = os.path.dirname(BASE_DIR)
 os.chdir(BASE_DIR)
 
 for folder in (BASE_DIR, PARENT_DIR):
-    if folder not in sys.path:
+    if folder and folder not in sys.path:
         sys.path.insert(0, folder)
 
 def build_parser():
@@ -30,10 +30,10 @@ def build_parser():
      analyze.add_argument("-f", "--file", required=True, help="Input file") 
      analyze.add_argument("-v", "--verbose", action="store_true")
      timer_parser = sub.add_parser('timer', help="Game timer")
-     timer_parser.add_argument("-s", "--seconds", type=int, required=True, help="Game timer countup")
-      
-
-
+     timer_parser.add_argument("-h", "--hours", type=int, required=True, default=0, help="Game timer countup")
+     timer_parser.add_argument("-m", "--minutes", type=int, required=True, default=0, help="Game timer countup")
+     timer_parser.add_argument("-s", "--seconds", type=int, required=True, default=0, help="Game timer countup")
+     timer_parser.add_argument("-m", "--milliseconds", type=int, required=True, default=0, help="Game timer countup")
      return parser
 
 def analyze_file(path, verbose=False):
@@ -55,19 +55,22 @@ def load_plugin(uppercase):
         module = importlib.import_module(f"pygameproject.plugins.{uppercase}")
         return module.apply
 
-def get_game_timer(seconds):
-    start_time = time.monotonic()
-    while True:
+#def get_game_timer(seconds):
+    #start_time = time.monotonic()
+    #while True:
         elapsed = int(time.monotonic() - start_time)
         if elapsed >= seconds:
             print(seconds)
-            break
+            #break
         print(elapsed)
         time.sleep(1)
 
+#def get_player_kills():
+
+
     
 
-def run_game(seconds=0):
+def run_game(hours=0, minutes=0, seconds=0, milliseconds=0):
     pygame.init()
    
     white = (255, 255, 255)
@@ -77,20 +80,26 @@ def run_game(seconds=0):
     clock = pygame.time.Clock()
     FPS = 60
     start_monotonic = time.monotonic()
+
     moving_left = False
     moving_right = False
     running = True
     player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() /2)
     font = pygame.font.Font('freesansbold.ttf', 12)
     controls_file = 'gametext/controls.txt'
+    start_offset_milliseconds = (hours * 3600000 + minutes * 60000 + seconds) * milliseconds  
     def get_game_text():
             with open(controls_file, encoding="utf-8") as f:
                 text = load_plugin("uppercase")(f.read())
             return text
 
     def get_game_time():
-        elapsed= int(time.monotonic() - start_monotonic) + seconds 
-        return f"Time: {elapsed}s"
+       elapsed_ms = int((time.monotonic() - start_monotonic) * 1000)
+       total_milliseconds = max(0, elapsed_ms + start_offset_milliseconds)
+       hrs, rem = divmod(total_milliseconds, 3600000)
+       mins,rem = divmod(rem, 60000)
+       sec, mills = divmod(rem, 1000)
+       return f"Time: {hrs:02d}:{mins:02d}:{sec:02d}:{mills:03d}"
 
 
 
@@ -180,7 +189,7 @@ def main():
     if len(sys.argv)>1:
         args = build_parser().parse_args()
         if args.command == "timer":
-            run_game(seconds=args.seconds)
+            run_game(hours=args.hours, minutes=args.minutes, second=args.seconds, milliseconds=args.milliseconds)
         if args.command == "analyze":
             text = safe_read(args.file)
             if text is None:
