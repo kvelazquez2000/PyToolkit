@@ -1,6 +1,7 @@
 import pygame
 import sqlite3
 import datetime
+import time
 import importlib
 import os
 import argparse
@@ -13,8 +14,13 @@ from functools import lru_cache, partial, update_wrapper, wraps
 from itertools import groupby, combinations
 from collections.abc import Iterator
 
-os.path.dirname(os.path.abspath(__file__))
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PARENT_DIR = os.chdir(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(BASE_DIR)
+
+for folder in (BASE_DIR, PARENT_DIR):
+    if folder not in sys.path:
+        sys.path.insert(0, folder)
 
 def build_parser():
      parser = argparse.ArgumentParser("Pytoolkit text untilities")
@@ -23,8 +29,8 @@ def build_parser():
      analyze = sub.add_parser("analyze", help="Analyze a text file")
      analyze.add_argument("-f", "--file", required=True, help="Input file") 
      analyze.add_argument("-v", "--verbose", action="store_true")
-     timer_parser = sub.add_parser('timer', help= "Game timer")
-     timer_parser.add_argumnet("-s" "--seconds", type=int, requried=True, help="Game timer countup")
+     timer_parser = sub.add_parser('timer', help="Game timer")
+     timer_parser.add_argument("-s", "--seconds", type=int, required=True, help="Game timer countup")
       
 
 
@@ -37,11 +43,6 @@ def analyze_file(path, verbose=False):
     if verbose:
          print(f"Characters: {len(words)}")
 
-def game_timer():
-    with open
-    timer = s
-
-
 def safe_read(path):
     try:
         with open(path, encoding="utf-8") as f:
@@ -51,17 +52,31 @@ def safe_read(path):
         return None
 
 def load_plugin(uppercase):
-        module = importlib.import_module(f"plugins.{uppercase}")
+        module = importlib.import_module(f"pygameproject.plugins.{uppercase}")
         return module.apply
 
-def run_game():
+def get_game_timer(seconds):
+    start_time = time.monotonic()
+    while True:
+        elapsed = int(time.monotonic() - start_time)
+        if elapsed >= seconds:
+            print(seconds)
+            break
+        print(elapsed)
+        time.sleep(1)
+
+    
+
+def run_game(seconds=0):
     pygame.init()
+   
     white = (255, 255, 255)
     green = (0, 255, 0)
     blue = (0, 0, 128)
     screen = pygame.display.set_mode((2100, 1200))
     clock = pygame.time.Clock()
     FPS = 60
+    start_monotonic = time.monotonic()
     moving_left = False
     moving_right = False
     running = True
@@ -73,15 +88,19 @@ def run_game():
                 text = load_plugin("uppercase")(f.read())
             return text
 
-    
+    def get_game_time():
+        elapsed= int(time.monotonic() - start_monotonic) + seconds 
+        return f"Time: {elapsed}s"
+
+
+
+
+   
     game_text = get_game_text()
     render_text = font.render(game_text, True, white)
     text_rect = render_text.get_rect()
     text_rect.topleft = (10, 10)
-    player_timer = timer()
-    render_timer = font.render(player_timer, True, white)
-    timer_rect = render_timer.get_rect()
-    timer_rect.topleft = (20, 10)
+  
     class Soldier(pygame.sprite.Sprite):
         def __init__(self, char_type, x, y, scale, speed):
             pygame.sprite.Sprite.__init__(self)
@@ -130,7 +149,15 @@ def run_game():
         player.draw()
         player.move(moving_left, moving_right)
         screen.blit(render_text, text_rect)
+        timer_text = get_game_time()
+        render_timer = font.render(timer_text, True, white)
+        timer_rect = render_timer.get_rect()
+        timer_rect.topleft = (10,35)
         screen.blit(render_timer, timer_rect)
+
+       
+
+
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
@@ -152,6 +179,8 @@ def run_game():
 def main():
     if len(sys.argv)>1:
         args = build_parser().parse_args()
+        if args.command == "timer":
+            run_game(seconds=args.seconds)
         if args.command == "analyze":
             text = safe_read(args.file)
             if text is None:
