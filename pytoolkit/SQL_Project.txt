@@ -1,0 +1,23 @@
+CREATE TABLE Employee(
+	employee_ID INT AUTO_INCREMENT,
+	employee_fname VARCHAR(15),
+	employee_lname VARCHAR(15),
+    employess_email VARCHAR(100),
+    employee_number VARCHAR(8),
+    hire_date DATETIME,
+    PRIMARY KEY (employee_ID)
+
+);
+
+
+CREATE TABLE Customer(
+	customer_ID INT AUTO_INCREMENT,
+    customer_fname VARCHAR(15),
+    customer_lname VARCHAR(15),
+    customer_number VARCHAR(8)
+    customer_email VARCHAR(100)
+    customer_address VARCHAR(100)
+    customer_state_
+    
+
+);
