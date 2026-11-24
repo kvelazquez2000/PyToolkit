@@ -1,4 +1,5 @@
-import pygame
+import pygame 
+import numpy as np 
 import sqlite3
 import datetime
 import time
