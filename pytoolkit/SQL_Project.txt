@@ -21,3 +21,23 @@ CREATE TABLE Customer(
     
 
 );
+
+CREATE TABLE Device(
+    device_ID INT AUTO_INCREMENT
+    device_name
+    device_type
+    device_names
+    device_s/n 
+    device_intake_condition
+
+);
+  
+CREATE TABLE(
+    
+):
+
+
+
+
+
+CREATE TABLE():

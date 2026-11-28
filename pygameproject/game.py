@@ -76,9 +76,13 @@ def run_game(hours=0, minutes=0, seconds=0, milliseconds=0):
     white = (255, 255, 255)
     green = (0, 255, 0)
     blue = (0, 0, 128)
+    red = (255, 0, 0)
     screen = pygame.display.set_mode((2100, 1200))
     clock = pygame.time.Clock()
     FPS = 60
+    GRAVITY = 0.75
+
+
     start_monotonic = time.monotonic()
 
     moving_left = False
@@ -109,18 +113,26 @@ def run_game(hours=0, minutes=0, seconds=0, milliseconds=0):
     render_text = font.render(game_text, True, white)
     text_rect = render_text.get_rect()
     text_rect.topleft = (10, 10)
+
+    def draw_bg():
+
+
+
   
     class Soldier(pygame.sprite.Sprite):
         def __init__(self, char_type, x, y, scale, speed):
             pygame.sprite.Sprite.__init__(self)
+            self.alive = True
             self.char_type = char_type   
             self.speed = speed
             self.direction = 1
+            self.jump = False
             self.flip = False
             img = pygame.image.load(f'{self.char_type}/idle/player_character_idle.png')
             self.img = pygame.transform.scale(img, (int(img.get_width() * scale), int(img.get_height() * scale)))
             self.rect = self.img.get_rect()
             self.rect.center = (x, y)
+            self.vel_y = 0
         def move(self, moving_left, moving_right):
             dx = 0
             dy = 0
@@ -134,6 +146,15 @@ def run_game(hours=0, minutes=0, seconds=0, milliseconds=0):
                 dx= self.speed
                 self.flip = False
                 self.direction = 1
+
+            if self.jump == True:
+                self.vel_y = -11
+                self.jump = False
+
+            self.vel_y += GRAVITY
+            if self.vel_y > 10:
+                self.vel_y
+            dy += self.vel_y
 
             self.rect.x += dx
             self.rect.y += dy
@@ -171,6 +192,8 @@ def run_game(hours=0, minutes=0, seconds=0, milliseconds=0):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
             running = False
+        if keys[pygame.K_SPACE] and player.alive:
+            player.jump = True
         if keys[pygame.K_a]:
             moving_left = True
         else:
